@@ -1,0 +1,34 @@
+<% var chunkedChannels = _.toArray(_.groupBy(data, function(element, index) { return Math.floor(index / options.channelsPerRow); })); %>
+<% _.each(chunkedChannels, function (channels) { %>
+    <div class="AknGridsLine channels" style="display:none">
+    <% _.each(channels, function (channelResult, channel) { %>
+        <div class="AknGridsLine-item">
+            <table class="AknGrid AknGrid--unclickable channel">
+                <tr>
+                    <td class="AknGrid-headerCell" colspan="2"><%- channelResult.name %></td>
+                    <td class="AknGrid-headerCell AknGrid-headerCell--right"><%- channelResult.percentage %>%</td>
+                </tr>
+                <% _.each(channelResult.locales, function (localeResult, locale) { %>
+                    <tr class="AknGrid-bodyRow">
+                        <td class="AknGrid-bodyCell locale"><%- locale %></td>
+                        <td class="AknGrid-bodyCell">
+                            <div class="AknProgress AknProgress--small <%- localeResult.ratio === 100 ? options.completeBar : options.inCompleteBar %>">
+                                <div class="AknProgress-bar" style="width: <%= localeResult.ratio %>%"></div>
+                            </div>
+                        </td>
+                        <td class="AknGrid-bodyCell AknGrid-bodyCell--right total">
+                            <%- localeResult.complete %>/<%- channelResult.total %>
+                        </td>
+                    </tr>
+                <% }); %>
+            </table>
+        </div>
+    <% }); %>
+    </div>
+<% }); %>
+
+<% if (chunkedChannels.length > 1) { %>
+    <div class="text-center">
+        <div class="AknButton AknButton--grey AknButton--small load-more"><%- __('pim_dashboard.widget.completeness.load_more') %></div>
+    </div>
+<% } %>

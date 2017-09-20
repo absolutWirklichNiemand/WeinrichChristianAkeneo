@@ -1,0 +1,26 @@
+<div class="AknDashboardButtons">
+    {% for link in links %}
+        <a href="{% if link.route is defined %}{{ path(link.route) }}{% endif %}" class="AknDashboardButtons-item" title="{{ link.label|trans }}">
+            <img class="AknDashboardButtons-image" src="{{ asset('bundles/pimdashboard/images/' ~ link.image) }}"/>
+            {{ link.label|trans }}
+        </a>
+    {% endfor %}
+</div>
+<script>
+
+	require(['jquery', 'pim/product-create'], function ($, ProductCreate) {
+                'use strict';
+           $(document).ready(function () {
+           	
+           		$('a.AknDashboardButtons-item[title="Add Product"]').click(function (e) {
+           		
+           			e.preventDefault();
+           			ProductCreate.openProductModal();
+           		})
+           
+           	         
+           })    
+             
+    });
+
+</script>
